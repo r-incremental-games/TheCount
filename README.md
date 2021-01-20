@@ -1,6 +1,7 @@
 ## The Count
-
 > Do you know why they call me the Count? Because I love to count! Ah-hah-hah!
+
+![Count Von Count](img/CountVonCount.png "It's the count, It's the count, It's the count...")
 
 A Discord bot that lets your users count as high as they want!
 
