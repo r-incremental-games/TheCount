@@ -19,3 +19,6 @@ class Stats(object):
         counts = [(k, v) for k, v in self.dict.items()]
         sorted_by_count = sorted(counts, key=lambda tup: tup[1], reverse=True)
         return sorted_by_count[:limit]
+
+    def reset(self):
+        self.dict = {}

@@ -5,6 +5,7 @@ from discord.ext import commands
 
 from InputParser import InputParser
 from Stats import Stats
+from SaveLoad import SaveLoad
 
 
 class TheCount(object):
@@ -20,6 +21,8 @@ class TheCount(object):
         self.stats = Stats()
         self.next_number = 1
         self.save_interval = save_interval
+
+        self.load()
 
         @self.client.event
         async def on_ready():
@@ -47,13 +50,14 @@ class TheCount(object):
                 return
 
             self.next_number += 1
-            if self.next_number % self.save_interval == 0:
-                self.save()
 
             await self.update_discord_activity()
 
             user = message.author
             self.stats.increment_user(user.name)
+
+            if self.next_number % self.save_interval == 0:
+                self.save()
 
         @self.client.command()
         async def set(ctx, arg):
@@ -69,18 +73,20 @@ class TheCount(object):
         @self.client.command()
         async def reset(ctx):
             """ADMIN ONLY: Reset the next_number back to 0"""
-            if not ctx.message.author.server_permissions.administrator:
+            if not ctx.message.author.guild_permissions.administrator:
                 return
             self.next_number = 0
+            self.stats.reset()
             await self.update_discord_activity()
             await ctx.send("Restarted!")
 
         @self.client.command()
         async def save(ctx):
             """ADMIN ONLY: Save the progress to the disk"""
-            if not ctx.message.author.server_permissions.administrator:
+            if not ctx.message.author.guild_permissions.administrator:
                 return
             self.save()
+            await ctx.send("Saved successfully!")
 
         @self.client.command()
         async def stats(ctx):
@@ -96,9 +102,16 @@ class TheCount(object):
 
     def save(self):
         print("Saving... ", end=' ')
+        SaveLoad.save_stats_dict(self.stats.dict)
+        SaveLoad.save_highest_number(self.next_number - 1)
+        print("Success")
+
+    def load(self):
+        print("Loading... ", end=' ')
+        self.stats.dict = SaveLoad.get_stats_dict()
+        self.next_number = SaveLoad.get_highest_number() + 1
 
         print("Success")
-        pass
 
     def get_counting_channel(self):
         """Search the list of channels for one that is named 'counting' (case-insensitive)"""
