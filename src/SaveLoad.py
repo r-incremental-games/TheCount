@@ -1,5 +1,6 @@
 import json
 import os
+from pathlib import Path
 
 
 class SaveLoad(object):
@@ -9,6 +10,8 @@ class SaveLoad(object):
 
     @staticmethod
     def save_highest_number(number):
+        Path(SaveLoad.BASE_SAVE_DIR).mkdir(parents=True, exist_ok=True)
+
         with open(SaveLoad.HIGHEST_NUMBER_FILE_NAME, 'w') as file:
             file.write(json.dumps(number))
 
@@ -23,6 +26,8 @@ class SaveLoad(object):
 
     @staticmethod
     def save_stats_dict(stats):
+        Path(SaveLoad.BASE_SAVE_DIR).mkdir(parents=True, exist_ok=True)
+
         with open(SaveLoad.STATS_DICT_FILE_NAME, 'w') as file:
             file.write(json.dumps(stats))
 
