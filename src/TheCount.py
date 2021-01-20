@@ -13,14 +13,17 @@ class TheCount(object):
     def __init__(self,
                  send_opening_message=True,
                  target_channel_name="counting",
-                 save_interval=10
+                 save_interval=10,
+                 prefix="!"
                  ):
-        self.client = commands.Bot(command_prefix="!")
         self.target_channel_name = target_channel_name
         self.channel = None
         self.stats = Stats()
         self.next_number = 1
         self.save_interval = save_interval
+        self.prefix = prefix
+
+        self.client = commands.Bot(command_prefix=self.prefix)
 
         self.load()
 

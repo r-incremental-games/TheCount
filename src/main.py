@@ -25,6 +25,8 @@ def main():
                         help="Whether or not The Count should open with a greeting")
     parser.add_argument("--channel", default="counting",
                         help="The channel The Count will operate in"),
+    parser.add_argument("--prefix", default="!",
+                        help="The prefix that goes before each command"),
     parser.add_argument("--save-interval", default=10, type=InputParser.string_to_int,
                         help="The Count will save its progress after n messages")
 
@@ -34,6 +36,7 @@ def main():
         send_opening_message=args.send_opening_message,
         target_channel_name=args.channel,
         save_interval=args.save_interval,
+        prefix=args.prefix
     )
 
     bot.start(TOKEN)
