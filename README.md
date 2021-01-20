@@ -42,6 +42,9 @@ Or use the optional arguments. You can view all of them with
 python src/main.py --help
 ```
 
+## Discord Setup
+Follow [this guide](https://realpython.com/how-to-make-a-discord-bot-python/) all the way up to and including "Creating a Bot"
+
 ## Usage
 
 ```
